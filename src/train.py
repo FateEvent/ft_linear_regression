@@ -8,8 +8,8 @@ from predict import estimatePrice
 
 def main():
     df = load("../material/data.csv")
-    Y = df['km']
-    X = df['price']
+    X = df['km']
+    Y = df['price']
 
     mean_x = np.mean(X)
     mean_y = np.mean(Y)
@@ -54,7 +54,7 @@ def main():
 
     try:
         with open("../material/θ.csv", "tw") as file:
-            file.write(f'{ a },{ b }')
+            file.write(f'{ b },{ a }')
     except Exception as error:
         print(f'{type(error).__name__}: {error}')
 
