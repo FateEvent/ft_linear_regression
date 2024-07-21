@@ -38,7 +38,7 @@ def main():
     # using the formula to calculate θ0 & θ1
     θ0 = θ1 = 1
     learningRate = 0.01
-    iterations = 100000
+    iterations = 10000
     
     θ0_norm, θ1_norm = gradient_descent(normalizedX, normalizedY, θ0, θ1,
                                         learningRate, iterations)
@@ -67,8 +67,7 @@ def main():
     plt.legend()
     plt.show()
 
-    # calculate mean of x & y using an inbuilt numpy method mean()
-    mean_x = np.mean(X)
+    # calculate mean of Y
     mean_y = np.mean(Y)
 
     # calculating R-squared value for measuring goodness of our model
