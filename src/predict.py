@@ -1,9 +1,8 @@
 def estimatePrice(mileage, θ0, θ1):
-    return θ0 + (θ1 * mileage)
+    return round(θ0 + (θ1 * mileage), 2)
 
 
 def main():
-    θ0 = θ1 = 0
 
     try:
         try:
@@ -13,7 +12,8 @@ def main():
             print(f'{type(error).__name__}: {error}')
 
         mileage = input("Enter your mileage: ")
-        print(estimatePrice(float(mileage), float(θ0), float(θ1)))
+        estimatedPrice = estimatePrice(float(mileage), float(θ0), float(θ1))
+        print(estimatedPrice if estimatedPrice > 0 else 0)
     except Exception as error:
         print(f'{type(error).__name__}: {error}')
 
