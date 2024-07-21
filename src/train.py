@@ -27,8 +27,13 @@ def gradient_descent(X, Y, θ0, θ1, learningRate, iterations):
 
 
 def main():
-    # collecting x & y
-    df = load("../material/data.csv")
+    # collecting X and Y
+    try:
+        df = load("../material/data.csv")
+    except Exception:
+        print('The database could not be retrieved.')
+        return 1
+
     X = df['km']
     Y = df['price']
 
@@ -39,7 +44,7 @@ def main():
     θ0 = θ1 = 1
     learningRate = 0.01
     iterations = 10000
-    
+
     θ0_norm, θ1_norm = gradient_descent(normalizedX, normalizedY, θ0, θ1,
                                         learningRate, iterations)
 
@@ -47,17 +52,13 @@ def main():
     θ1 = θ1_norm * (Y.std() / X.std())
     θ0 = θ0_norm * Y.std() + Y.mean() - θ1 * X.mean()
 
-    print(f"theta0: {θ0}, theta1: {θ1}")
-
     # plotting values and regression line
     max_x = np.max(X) + 100
     min_x = np.min(X) - 100
 
     # calculating line values x and y
     x = np.linspace(min_x, max_x, 100)
-    print(x)
     y = θ0 + θ1 * x
-    print(f"theta0: {θ0}, theta1: {θ1}")
 
     plt.plot(x, y, color='#58b970', label='Regression Line')
     plt.scatter(X, Y, c='#ef5423', label='data points')
@@ -66,22 +67,6 @@ def main():
     plt.ylabel('Mileage')
     plt.legend()
     plt.show()
-
-    # calculate mean of Y
-    mean_y = np.mean(Y)
-
-    # calculating R-squared value for measuring goodness of our model
-
-    ss_t = 0  # total sum of squares
-    ss_r = 0  # total sum of square of residuals
-
-    for i in range(int(len(X))):
-        y_pred = θ0 + θ1 * X[i]
-        ss_t += (Y[i] - mean_y) ** 2
-        ss_r += (Y[i] - y_pred) ** 2
-    r2 = 1 - (ss_r/ss_t)
-
-    print(r2)
 
     try:
         with open("../material/θ.csv", "w") as file:
