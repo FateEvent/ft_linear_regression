@@ -5,24 +5,51 @@ from load_csv import load
 from predict import estimatePrice
 
 
-def gradient_descent(X, Y, θ0, θ1, learningRate, iterations):
+def linePlotter(X, Y, θ0_norm, θ1_norm):
+    # Transforming θ0 and θ1 back to original scale
+    θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
+
+    # plotting values and regression line
+    max_x = np.max(X) + 100
+    min_x = np.min(X) - 100
+
+    # calculating line values x and y
+    x = np.linspace(min_x, max_x, 100)
+    y = θ0 + θ1 * x
+
+    # plt.plot(x, y, color='#58b970', label='Regression Line')
+    plt.plot(x, y)
+
+
+def gradientDescent(X, Y, θ0, θ1, learningRate, iterations, unNormalizedX,
+                    unnormalizedY):
     m = len(X)  # Number of training examples
 
-    for _ in range(iterations):
+    for i in range(iterations):
         sum_tmpθ0 = 0.0
         sum_tmpθ1 = 0.0
 
-        for i in range(m):
-            error = estimatePrice(X[i], θ0, θ1) - Y[i]
+        for j in range(m):
+            error = estimatePrice(X[j], θ0, θ1) - Y[j]
             sum_tmpθ0 += error
-            sum_tmpθ1 += error * X[i]
+            sum_tmpθ1 += error * X[j]
 
         tmpθ0 = learningRate * (1/m) * sum_tmpθ0
         tmpθ1 = learningRate * (1/m) * sum_tmpθ1
 
         θ0 -= tmpθ0
         θ1 -= tmpθ1
+        if i % 50 == 0:
 
+            print(f'{i}, {θ0}, {θ1}')
+            linePlotter(unNormalizedX, unnormalizedY, θ0, θ1)
+
+    return θ0, θ1
+
+
+def unnormalizeΘ(X, Y, θ0_norm, θ1_norm):
+    θ1 = θ1_norm * (Y.std() / X.std())
+    θ0 = θ0_norm * Y.std() + Y.mean() - θ1 * X.mean()
     return θ0, θ1
 
 
@@ -43,25 +70,25 @@ def main():
     # using the formula to calculate θ0 & θ1
     θ0 = θ1 = 1
     learningRate = 0.01
-    iterations = 10000
+    iterations = 1000
 
-    θ0_norm, θ1_norm = gradient_descent(normalizedX, normalizedY, θ0, θ1,
-                                        learningRate, iterations)
+    θ0_norm, θ1_norm = gradientDescent(normalizedX, normalizedY, θ0, θ1,
+                                       learningRate, iterations, X, Y)
 
     # Transforming θ0 and θ1 back to original scale
-    θ1 = θ1_norm * (Y.std() / X.std())
-    θ0 = θ0_norm * Y.std() + Y.mean() - θ1 * X.mean()
+    # θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
 
-    # plotting values and regression line
-    max_x = np.max(X) + 100
-    min_x = np.min(X) - 100
+    # # plotting values and regression line
+    # max_x = np.max(X) + 100
+    # min_x = np.min(X) - 100
 
-    # calculating line values x and y
-    x = np.linspace(min_x, max_x, 100)
-    y = θ0 + θ1 * x
+    # # calculating line values x and y
+    # x = np.linspace(min_x, max_x, 100)
+    # y = θ0 + θ1 * x
 
-    plt.plot(x, y, color='#58b970', label='Regression Line')
-    plt.scatter(X, Y, c='#ef5423', label='data points')
+    # plt.plot(x, y, color='#58b970', label='Regression Line')
+    linePlotter(X, Y, θ0_norm, θ1_norm)
+    plt.scatter(X, Y, c='#ef5423', label='Data Points')
 
     plt.xlabel('Price')
     plt.ylabel('Mileage')
