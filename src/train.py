@@ -6,7 +6,7 @@ from load_csv import load
 from predict import estimatePrice
 
 
-def linePlotter(X, Y, θ0_norm, θ1_norm, label=False):
+def linePlotter(X, Y, θ0_norm, θ1_norm, index=0):
     # Transforming θ0 and θ1 back to original scale
     θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
 
@@ -18,10 +18,10 @@ def linePlotter(X, Y, θ0_norm, θ1_norm, label=False):
     x = np.linspace(min_x, max_x, 100)
     y = θ0 + θ1 * x
 
-    if label:
+    if not index:
         plt.plot(x, y, label='Regression Line')
     else:
-        plt.plot(x, y)
+        plt.plot(x, y, label=f'Regression Line step { index }')
 
 
 def gradientDescent(X, Y, θ0, θ1, learningRate, iterations, printInterval):
@@ -61,14 +61,13 @@ def main():
                         action=argparse.BooleanOptionalAction,
                         help="It displays the graph with the regression line \
                             and the data points")
-    parser.add_argument("-ss", "--showStages",
+    parser.add_argument("-sS", "--showStages",
                         action=argparse.BooleanOptionalAction,
                         dest="showStages",
                         help="It shows regression line stages")
 
     args = parser.parse_args()
 
-    print(args.graph)
     # collecting X and Y
     try:
         df = load("../material/data.csv")
@@ -79,18 +78,20 @@ def main():
     X = df['km']
     Y = df['price']
 
-    # using the formula to calculate θ0 & θ1
+    # using the formula to calculate θ0 and θ1
     θ0 = θ1 = 1
     learningRate = 0.01
     iterations = 10000
 
+    i = 1
     for θ0_norm, θ1_norm in gradientDescent(X, Y, θ0, θ1, learningRate,
                                             iterations, 50):
         θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
         if args.showStages:
-            linePlotter(X, Y, θ0_norm, θ1_norm)
+            linePlotter(X, Y, θ0_norm, θ1_norm, i)
+            i += 1
     if args.graph or args.showStages:
-        linePlotter(X, Y, θ0_norm, θ1_norm, True)
+        linePlotter(X, Y, θ0_norm, θ1_norm)
         plt.scatter(X, Y, c='#ef5423', label='Data Points')
 
         plt.xlabel('Price')
