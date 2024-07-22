@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
 from load_csv import load
 from predict import estimatePrice
@@ -55,6 +56,19 @@ def unnormalizeΘ(X, Y, θ0_norm, θ1_norm):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-g", "--graph", dest="graph",
+                        action=argparse.BooleanOptionalAction,
+                        help="It displays the graph with the regression line \
+                            and the data points")
+    parser.add_argument("-ss", "--showStages",
+                        action=argparse.BooleanOptionalAction,
+                        dest="showStages",
+                        help="It shows regression line stages")
+
+    args = parser.parse_args()
+
+    print(args.graph)
     # collecting X and Y
     try:
         df = load("../material/data.csv")
@@ -72,16 +86,17 @@ def main():
 
     for θ0_norm, θ1_norm in gradientDescent(X, Y, θ0, θ1, learningRate,
                                             iterations, 50):
-        linePlotter(X, Y, θ0_norm, θ1_norm)
-    linePlotter(X, Y, θ0_norm, θ1_norm, True)
-    plt.scatter(X, Y, c='#ef5423', label='Data Points')
+        θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
+        if args.showStages:
+            linePlotter(X, Y, θ0_norm, θ1_norm)
+    if args.graph or args.showStages:
+        linePlotter(X, Y, θ0_norm, θ1_norm, True)
+        plt.scatter(X, Y, c='#ef5423', label='Data Points')
 
-    plt.xlabel('Price')
-    plt.ylabel('Mileage')
-    plt.legend()
-    plt.show()
-
-    θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
+        plt.xlabel('Price')
+        plt.ylabel('Mileage')
+        plt.legend()
+        plt.show()
 
     try:
         with open("../material/θ.csv", "w") as file:
