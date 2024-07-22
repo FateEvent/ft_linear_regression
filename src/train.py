@@ -5,7 +5,7 @@ from load_csv import load
 from predict import estimatePrice
 
 
-def linePlotter(X, Y, θ0_norm, θ1_norm):
+def linePlotter(X, Y, θ0_norm, θ1_norm, label=False):
     # Transforming θ0 and θ1 back to original scale
     θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
 
@@ -17,34 +17,35 @@ def linePlotter(X, Y, θ0_norm, θ1_norm):
     x = np.linspace(min_x, max_x, 100)
     y = θ0 + θ1 * x
 
-    # plt.plot(x, y, color='#58b970', label='Regression Line')
-    plt.plot(x, y)
+    if label:
+        plt.plot(x, y, label='Regression Line')
+    else:
+        plt.plot(x, y)
 
 
-def gradientDescent(X, Y, θ0, θ1, learningRate, iterations, unNormalizedX,
-                    unnormalizedY):
-    m = len(X)  # Number of training examples
+def gradientDescent(X, Y, θ0, θ1, learningRate, iterations, printInterval):
+    m = len(X)  # Number of population values
+
+    normalizedX = (X - X.mean()) / X.std()
+    normalizedY = (Y - Y.mean()) / Y.std()
 
     for i in range(iterations):
         sum_tmpθ0 = 0.0
         sum_tmpθ1 = 0.0
 
         for j in range(m):
-            error = estimatePrice(X[j], θ0, θ1) - Y[j]
+            error = estimatePrice(normalizedX[j], θ0, θ1) - normalizedY[j]
             sum_tmpθ0 += error
-            sum_tmpθ1 += error * X[j]
+            sum_tmpθ1 += error * normalizedX[j]
 
         tmpθ0 = learningRate * (1/m) * sum_tmpθ0
         tmpθ1 = learningRate * (1/m) * sum_tmpθ1
 
         θ0 -= tmpθ0
         θ1 -= tmpθ1
-        if i % 50 == 0:
 
-            print(f'{i}, {θ0}, {θ1}')
-            linePlotter(unNormalizedX, unnormalizedY, θ0, θ1)
-
-    return θ0, θ1
+        if i % printInterval == 0:
+            yield θ0, θ1
 
 
 def unnormalizeΘ(X, Y, θ0_norm, θ1_norm):
@@ -64,36 +65,23 @@ def main():
     X = df['km']
     Y = df['price']
 
-    normalizedX = (X - X.mean()) / X.std()
-    normalizedY = (Y - Y.mean()) / Y.std()
-
     # using the formula to calculate θ0 & θ1
     θ0 = θ1 = 1
     learningRate = 0.01
-    iterations = 1000
+    iterations = 10000
 
-    θ0_norm, θ1_norm = gradientDescent(normalizedX, normalizedY, θ0, θ1,
-                                       learningRate, iterations, X, Y)
-
-    # Transforming θ0 and θ1 back to original scale
-    # θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
-
-    # # plotting values and regression line
-    # max_x = np.max(X) + 100
-    # min_x = np.min(X) - 100
-
-    # # calculating line values x and y
-    # x = np.linspace(min_x, max_x, 100)
-    # y = θ0 + θ1 * x
-
-    # plt.plot(x, y, color='#58b970', label='Regression Line')
-    linePlotter(X, Y, θ0_norm, θ1_norm)
+    for θ0_norm, θ1_norm in gradientDescent(X, Y, θ0, θ1, learningRate,
+                                            iterations, 50):
+        linePlotter(X, Y, θ0_norm, θ1_norm)
+    linePlotter(X, Y, θ0_norm, θ1_norm, True)
     plt.scatter(X, Y, c='#ef5423', label='Data Points')
 
     plt.xlabel('Price')
     plt.ylabel('Mileage')
     plt.legend()
     plt.show()
+
+    θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
 
     try:
         with open("../material/θ.csv", "w") as file:
