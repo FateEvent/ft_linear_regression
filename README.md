@@ -15,3 +15,6 @@ To normalize the values of my arrays of mileage and prices I followed the tip of
 Daksh Trehan's articles ["Linear Regression Explained"](https://pub.towardsai.net/linear-regression-explained-f5cc85ae2c5c) and ["Gradient Descent Explained"](https://towardsdatascience.com/gradient-descent-explained-9b953fc0d2c)
 Robert Kwiatkowski's article ["Gradient Descent Algorithm — a deep dive"](https://towardsdatascience.com/gradient-descent-algorithm-a-deep-dive-cf04e8115f210)
 Jatin Mehra's article [Understanding Gradient Descent: A Beginner’s Guide](https://medium.com/@jatinmehra119/understanding-gradient-descent-a-beginners-guide-ad1f948b4b0a)
+
+[Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
+[Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse)
