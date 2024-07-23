@@ -1,6 +1,7 @@
 import numpy as np
 
 from load_csv import load
+from predict import estimatePrice
 
 
 def main():
@@ -32,7 +33,7 @@ def main():
         ss_r = 0  # total sum of square of residuals
 
         for i in range(int(len(X))):
-            y_pred = float(θ0) + float(θ1) * X[i]
+            y_pred = estimatePrice(X[i], float(θ0), float(θ1))
             ss_t += (Y[i] - mean_y) ** 2
             ss_r += (Y[i] - y_pred) ** 2
         r2 = 1 - (ss_r/ss_t)
