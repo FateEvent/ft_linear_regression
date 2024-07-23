@@ -95,8 +95,8 @@ def main():
         linePlotter(X, Y, θ0_norm, θ1_norm)
         plt.scatter(X, Y, c='#ef5423', label='Data Points')
 
-        plt.xlabel('Price')
-        plt.ylabel('Mileage')
+        plt.xlabel('Mileage')
+        plt.ylabel('Price')
         plt.legend()
         plt.show()
 

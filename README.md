@@ -1,10 +1,62 @@
 # ft_linear_regression
 
+__Linear regression__ is one of the first algorithms that machine learning students learn, due to its fundamental nature.
+It is a linear model, since it can only fit linear data points.
+
+__Linear regression__ may be _simple_ and _multiple_, but on this occasion we will limit ourselves to analyze __simple linear regression__.
+
+### Simple Linear Regression
+
+__Simple linear regression__ is useful for finding the relationship between two continuous variables, an independent variable and a dependent or predictable one.
+
+Given as input a set of data points, or vectors, containing a series of features, the goal is to obtain a line that best _fits_ the data. The best fit line is the one for which total prediction error is as small as possible. The error represents the vertical distance between each point and its predicted value on the __regression line__ or, in other words, the difference between actual and predicted values.
+
+In the case of simple linear regression, the __regression line__ is represented as:
+y = ax + b
+where _x_ is the independent feature, _y_ is the dependent feature, _a_ is the slope and _b_ the y-intercept, or constant.
+
+![A model representation](varia/img/model_representation.png)
+
+In this context, "to fit" means to find the parameters of a model (in this case, the regression line) that best represent the relationship between the input features (independent variables) and the output (dependent variable) in the data. Specifically, it involves determining the slope and intercept of the line that minimize the discrepancies between the observed values and the values predicted by the model.
+
+![An example of simple linear regression](varia/img/slr.png)
+
+The whole concept of __linear regression__ is based on the equation of a line:
+
+![The model](varia/img/model.png)
+
+The goal of the algorithm is to learn _theta0_, _theta1_, and _h(x)_.
+
+### The Cost Function
+
+The __cost function__ aims at evaluating the performance of the model by computing a single scalar value that represents the total error across all data points. In __linear regression__, the most commonly used cost functions are the _Mean Squared Error (MSE)_ or the _Sum of Squared Errors (SSE)_.
+
+![The cost function](varia/img/cost_function.png)
+
+Here we use the _Mean Squared Error_ function, whose (optimized) formula may be written as follows:
+
+![The cost function formula](varia/img/cost_function_formula.png)
+
+or:
+
+![The cost function formula simplified](varia/img/cost_function_simplified_formula.png)
+
+where _m_ represents the total number of examples in the dataset.
+
+A __cost function__ has to be:
+- differentiable,
+- convex.
+
+First, what does it mean it has to be differentiable? If a function is differentiable it has a derivative for each point in its domain — not all functions meet these criteria. First, let’s see some examples of functions meeting this criterion:
 
 
 
 
-[Why Linear regression for Machine Learning?](https://www.youtube.com/watch?v=qxo8p8PtFeA)
+
+
+
+
+### Bibliography
 
 A playlist [by Machine Lernia](https://www.youtube.com/watch?v=EUD07IiviJg&list=PLO_fdPEVlfKqUF5BPKjGSh7aV9aBshrpY) initiating to machine learning (in French).
 
@@ -12,13 +64,13 @@ A playlist [by Machine Lernia](https://www.youtube.com/watch?v=EUD07IiviJg&list=
 
 The foundations of my work are inspired by Sindhu Seelam's article ["Linear Regression From Scratch in Python WITHOUT Scikit-learn"](https://medium.com/geekculture/linear-regression-from-scratch-in-python-without-scikit-learn-a06efe5dedb6) published on Medium.
 
-To normalize the values of my arrays of mileage and prices I followed the tip of Cina on [StackOverflow](https://stackoverflow.com/a/41532180).
-
-### Bibliography
-
 Daksh Trehan's articles ["Linear Regression Explained"](https://pub.towardsai.net/linear-regression-explained-f5cc85ae2c5c) and ["Gradient Descent Explained"](https://towardsdatascience.com/gradient-descent-explained-9b953fc0d2c)
-Robert Kwiatkowski's article ["Gradient Descent Algorithm — a deep dive"](https://towardsdatascience.com/gradient-descent-algorithm-a-deep-dive-cf04e8115f210)
+Robert Kwiatkowski's article ["Gradient Descent Algorithm — a deep dive"](https://medium.com/towards-data-science/gradient-descent-algorithm-a-deep-dive-cf04e8115f21)
 Jatin Mehra's article [Understanding Gradient Descent: A Beginner’s Guide](https://medium.com/@jatinmehra119/understanding-gradient-descent-a-beginners-guide-ad1f948b4b0a)
+
+I used [Desmos Graphing Calculator](https://www.desmos.com/calculator) to graphically display the functions for my examples.
+
+To normalize the values of my arrays of mileage and prices I followed the tip of Cina on [StackOverflow](https://stackoverflow.com/a/41532180).
 
 [Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
 [Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse)
