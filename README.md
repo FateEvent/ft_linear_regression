@@ -1,9 +1,11 @@
 # ft_linear_regression
 
 __Linear regression__ is one of the first algorithms that machine learning students learn, due to its fundamental nature.
-It is a linear model, since it can only fit linear data points.
+It is an algorithm of [supervised learning](https://en.wikipedia.org/wiki/Supervised_learning), a paradigm in machine learning where input objects (for example, a vector of predictor variables) and a desired output value (also known as human-labeled supervisory signal) train a model.
 
-__Linear regression__ may be _simple_ and _multiple_, but on this occasion we will limit ourselves to analyze __simple linear regression__.
+__Linear regression__ is also a linear model, since it can only fit linear data points.
+
+__Linear regression__ may be __simple__ and __multiple__, but on this occasion we will limit ourselves to analyze __simple linear regression__.
 
 ### Simple Linear Regression
 
@@ -17,7 +19,7 @@ where _x_ is the independent feature, _y_ is the dependent feature, _a_ is the s
 
 ![A model representation](varia/img/model_representation.png)
 
-In this context, "to fit" means to find the parameters of a model (in this case, the regression line) that best represent the relationship between the input features (independent variables) and the output (dependent variable) in the data. Specifically, it involves determining the slope and intercept of the line that minimize the discrepancies between the observed values and the values predicted by the model.
+In this context, "fitting the data" means finding the parameters of a model (in this case, the regression line) that best represent the relationship between the input features (independent variables) and the output (dependent variable) in the data. Specifically, it involves determining the slope and intercept of the line that minimize the discrepancies between the observed values and the values predicted by the model.
 
 ![An example of simple linear regression](varia/img/slr.png)
 
@@ -29,15 +31,17 @@ The goal of the algorithm is to learn _theta0_, _theta1_, and _h(x)_.
 
 ### The Cost Function
 
-The __cost function__ aims at evaluating the performance of the model by computing a single scalar value that represents the total error across all data points. In __linear regression__, the most commonly used cost functions are the _Mean Squared Error (MSE)_ or the _Sum of Squared Errors (SSE)_.
+The __cost function__ is a quadratic function (it usually traces a parabola) aiming at evaluating the performance of the model by computing a single scalar value that represents the total error across all data points. In __linear regression__, the most commonly used cost functions are the _Mean Squared Error (MSE)_:
 
 ![alt text](varia/img/mse.png)
+
+and the _Sum of Squared Errors (SSE)_:
 
 ![alt text](varia/img/sse.png)
 
 ![The cost function](varia/img/cost_function.png)
 
-Here we use the _Mean Squared Error_ function, whose (optimized) formula may be written as follows:
+In the `train.py` program we use the _Mean Squared Error_ function, whose (optimized) formula may be written as follows:
 
 ![The cost function formula](varia/img/cost_function_formula.png)
 
@@ -47,15 +51,13 @@ or, to simplify:
 
 where _m_ represents the total number of examples in the dataset.
 
-A __cost function__ has to be:
-- differentiable,
-- convex.
+A __cost function__ should ideally be __differentiable__ and __convex__ to facilitate efficient optimization, particularly when using gradient-based methods
 
 A function is __differentiable__ if it has a derivative for each point in its domain as the following examples:
 
 ![Examples of differentiable functions](varia/img/differentiable.png)
 
-While functions which have a cusp or a discontinuity are non-differentiable:
+whereas functions which have a cusp or a discontinuity are non-differentiable:
 
 ![Examples of undifferentiable functions](varia/img/non-differentiable.png)
 
@@ -71,39 +73,38 @@ In the case of a univariate function, it is simply the first derivative at a sel
 
 ### Gradient Descent
 
-__Gradient Descent__ is an algorithm used in machine learning to find the lowest point of the convex __cost function__.
+__Gradient Descent__ is an algorithm used in machine learning to minimize the error by iteratively adjusting the model parameters.
 
 ![Gradient Descent on cost function](varia/img/gd_example.png)
 
-For ease, let’s take a simple linear model.
+A machine learning model aims to minimize this error to achieve high accuracy.
+Gradient Descent
 
-    Error = Y(Predicted) - Y(Actual)
+#### Steps to Implement Gradient Descent:
 
-A machine learning model always wants low error with maximum accuracy, in order to decrease error we will intuit our algorithm that you’re doing something wrong that is needed to be rectified, that would be done through Gradient Descent.
+    1. Randomly Initialize Values: Start with random parameter values;
+    2. Update Values: Adjust the parameters using the gradient of the error with respect to each parameter;
+    3. Repeat Until Convergence: Continue updating until the slope (derivative) is zero, indicating a minimum error.
 
-We need to minimize our error, in order to get pointer to minima we need to walk some steps that are known as alpha(learning rate).
-Steps to implement Gradient Descent
+#### Key Concepts:
 
-    Randomly initialize values.
-    Update values.
+* __Derivative__: Represents the slope of the error function at a particular point, guiding the direction to adjust parameters.
+* __Learning Rate (Alpha)__: Determines the size of the steps taken during each update.
 
-3. Repeat until slope = 0
+    * If too small, the model learns slowly.
+    * If too large, the model may overshoot the minimum and fail to converge.
 
-A derivative is a term that comes from calculus and is calculated as the slope of the graph at a particular point. The slope is described by drawing a tangent line to the graph at the point. So, if we are able to compute this tangent line, we might be able to compute the desired direction to reach the minima.
-
-Learning rate must be chosen wisely as:
-1. if it is too small, then the model will take some time to learn.
-2. if it is too large, model will converge as our pointer will shoot and we’ll not be able to get to minima.
+This process ensures that the model parameters are adjusted in the direction that reduces the error, leading to an optimal solution.
 
 ![Machine learning formulas I used](varia/img/mlearnia_formulas.png)
 
 ### Bibliography
 
-I started my learning process from a playlist [by Machine Lernia](https://www.youtube.com/watch?v=EUD07IiviJg&list=PLO_fdPEVlfKqUF5BPKjGSh7aV9aBshrpY) initiating to machine learning (in French).
+I approached machine learning from a [YouTube video playlist](https://www.youtube.com/watch?v=EUD07IiviJg&list=PLO_fdPEVlfKqUF5BPKjGSh7aV9aBshrpY) by Machine Lernia (in French).
 
-The foundations of my work are inspired by Sindhu Seelam's article ["Linear Regression From Scratch in Python WITHOUT Scikit-learn"](https://medium.com/geekculture/linear-regression-from-scratch-in-python-without-scikit-learn-a06efe5dedb6) published on Medium.
+The foundations of my `train.py` program are inspired by Sindhu Seelam's article ["Linear Regression From Scratch in Python WITHOUT Scikit-learn"](https://medium.com/geekculture/linear-regression-from-scratch-in-python-without-scikit-learn-a06efe5dedb6) published on Medium.
 
-Other articles I used for the explanations and the present redaction of the README file are:
+Other articles I used for the explanations and the redaction of the present README file are:
 - Daksh Trehan's articles ["Linear Regression Explained"](https://pub.towardsai.net/linear-regression-explained-f5cc85ae2c5c) and ["Gradient Descent Explained"](https://towardsdatascience.com/gradient-descent-explained-9b953fc0d2c);
 - Robert Kwiatkowski's article ["Gradient Descent Algorithm — a deep dive"](https://medium.com/towards-data-science/gradient-descent-algorithm-a-deep-dive-cf04e8115f21);
 - Jatin Mehra's article [Understanding Gradient Descent: A Beginner’s Guide](https://medium.com/@jatinmehra119/understanding-gradient-descent-a-beginners-guide-ad1f948b4b0a).
@@ -112,12 +113,11 @@ I used [Desmos Graphing Calculator](https://www.desmos.com/calculator) to graphi
 
 To normalize the values of my arrays of mileage and prices I followed the tip of Cina on [StackOverflow](https://stackoverflow.com/a/41532180).
 
-[Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
+To add argument flags to the program, I used the [argparse](https://docs.python.org/3/library/argparse.html) library, and in particular I followed [Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
 [Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse)
 
-### Appendix A
-
-#### A. Fuchs' Notes
+### Appendix A:
+#### A.F.'s Notes
 
 En fait le but du jeu c’est de trouver les paramètres a et b d’une fonction linéaire f(x) = ax + b.
 Pour ça tu considères une fonction T(a, b) dont la valeur représente une sorte d’erreur moyenne entre la valeur d’estimation de f(x) et les valeurs réelles (plutôt une variance en fait), et tu cherches à minimiser cette erreur.
@@ -131,8 +131,6 @@ Et pour continuer tu répètes la même chose en remplaçant (a_0, b_0) par (a_1
 
 Le coefficient dont je parle dans la dernière formule, c’est le coefficient de convergence. Il y a une manière de trouver le plus optimisé mais c’est un tout autre sujet, que je pourrais t’expliquer mais ce serait mieux avec un tableau en présentiel.
 Normalement avec une valeur suffisamment petite l’algo fonctionnera mais il ne sera pas le plus rapide possible.
-
-[...]
 
 Coef c’est bien le learning rate, tandis que T(a, b) dans mon explication c’est la mesure de l’erreur entre la fonction coût et les données réelles.
 Et quand tu calcules le gradient de cette fonction T(a, b) tu obtiens les formules données dans le sujet.

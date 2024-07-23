@@ -77,7 +77,7 @@ def main():
     Y = df['price']
 
     # using the formula to calculate θ0 and θ1
-    θ0 = θ1 = 1
+    θ0 = θ1 = 0
     learningRate = 0.01
     iterations = 10000
 
