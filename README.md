@@ -95,6 +95,7 @@ Learning rate must be chosen wisely as:
 1. if it is too small, then the model will take some time to learn.
 2. if it is too large, model will converge as our pointer will shoot and we’ll not be able to get to minima.
 
+![Machine learning formulas I used](varia/img/mlearnia_formulas.png)
 
 ### Bibliography
 

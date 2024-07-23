@@ -44,6 +44,7 @@ def gradientDescent(X, Y, θ0, θ1, learningRate, iterations, printInterval):
 
         if i % printInterval == 0:
             yield θ0, θ1
+    yield θ0, θ1
 
 
 def unnormalizeΘ(X, Y, θ0_norm, θ1_norm):
@@ -78,7 +79,7 @@ def main():
     # using the formula to calculate θ0 and θ1
     θ0 = θ1 = 1
     learningRate = 0.01
-    iterations = 1000
+    iterations = 10000
 
     i = 1
     # normalizing my arrays
@@ -86,7 +87,7 @@ def main():
     normalizedY = (Y - Y.mean()) / Y.std()
 
     for θ0_norm, θ1_norm in gradientDescent(normalizedX, normalizedY, θ0, θ1,
-                                            learningRate, iterations, 50):
+                                            learningRate, iterations, 25):
         θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
         if args.showStages:
             linePlotter(X, Y, θ0_norm, θ1_norm, i)
