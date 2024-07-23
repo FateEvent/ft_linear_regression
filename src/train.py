@@ -27,17 +27,14 @@ def linePlotter(X, Y, θ0_norm, θ1_norm, index=0):
 def gradientDescent(X, Y, θ0, θ1, learningRate, iterations, printInterval):
     m = len(X)  # Number of population values
 
-    normalizedX = (X - X.mean()) / X.std()
-    normalizedY = (Y - Y.mean()) / Y.std()
-
     for i in range(iterations):
         sum_tmpθ0 = 0.0
         sum_tmpθ1 = 0.0
 
         for j in range(m):
-            error = estimatePrice(normalizedX[j], θ0, θ1) - normalizedY[j]
+            error = estimatePrice(X[j], θ0, θ1) - Y[j]
             sum_tmpθ0 += error
-            sum_tmpθ1 += error * normalizedX[j]
+            sum_tmpθ1 += error * X[j]
 
         tmpθ0 = learningRate * (1/m) * sum_tmpθ0
         tmpθ1 = learningRate * (1/m) * sum_tmpθ1
@@ -84,8 +81,12 @@ def main():
     iterations = 10000
 
     i = 1
-    for θ0_norm, θ1_norm in gradientDescent(X, Y, θ0, θ1, learningRate,
-                                            iterations, 50):
+    # I normalize my arrays
+    normalizedX = (X - X.mean()) / X.std()
+    normalizedY = (Y - Y.mean()) / Y.std()
+
+    for θ0_norm, θ1_norm in gradientDescent(normalizedX, normalizedY, θ0, θ1,
+                                            learningRate, iterations, 50):
         θ0, θ1 = unnormalizeΘ(X, Y, θ0_norm, θ1_norm)
         if args.showStages:
             linePlotter(X, Y, θ0_norm, θ1_norm, i)
