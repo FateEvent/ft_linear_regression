@@ -31,13 +31,17 @@ The goal of the algorithm is to learn _theta0_, _theta1_, and _h(x)_.
 
 The __cost function__ aims at evaluating the performance of the model by computing a single scalar value that represents the total error across all data points. In __linear regression__, the most commonly used cost functions are the _Mean Squared Error (MSE)_ or the _Sum of Squared Errors (SSE)_.
 
+![alt text](varia/img/mse.png)
+
+![alt text](varia/img/sse.png)
+
 ![The cost function](varia/img/cost_function.png)
 
 Here we use the _Mean Squared Error_ function, whose (optimized) formula may be written as follows:
 
 ![The cost function formula](varia/img/cost_function_formula.png)
 
-or:
+or, to simplify:
 
 ![The cost function formula simplified](varia/img/cost_function_simplified_formula.png)
 
@@ -47,26 +51,61 @@ A __cost function__ has to be:
 - differentiable,
 - convex.
 
-First, what does it mean it has to be differentiable? If a function is differentiable it has a derivative for each point in its domain — not all functions meet these criteria. First, let’s see some examples of functions meeting this criterion:
+A function is __differentiable__ if it has a derivative for each point in its domain as the following examples:
 
+![Examples of differentiable functions](varia/img/differentiable.png)
 
+While functions which have a cusp or a discontinuity are non-differentiable:
 
+![Examples of undifferentiable functions](varia/img/non-differentiable.png)
 
+On the other hand, a univariate function is convex if the line segment connecting two function’s points lays on or above its curve (it does not cross it). If it does it means that it has a local minimum which is not a global one.
 
+![alt text](varia/img/convex.png)
 
+### The Gradient
+
+Intuitively, a __gradient__ is a slope of a curve at a given point in a specified direction.
+
+In the case of a univariate function, it is simply the first derivative at a selected point. In the case of a multivariate function, it is a vector of derivatives in each main direction (along variable axes). Because we are interested only in a slope along one axis and we don’t care about others these derivatives are called partial derivatives.
+
+### Gradient Descent
+
+__Gradient Descent__ is an algorithm used in machine learning to find the lowest point of the convex __cost function__.
+
+![Gradient Descent on cost function](varia/img/gd_example.png)
+
+For ease, let’s take a simple linear model.
+
+    Error = Y(Predicted) - Y(Actual)
+
+A machine learning model always wants low error with maximum accuracy, in order to decrease error we will intuit our algorithm that you’re doing something wrong that is needed to be rectified, that would be done through Gradient Descent.
+
+We need to minimize our error, in order to get pointer to minima we need to walk some steps that are known as alpha(learning rate).
+Steps to implement Gradient Descent
+
+    Randomly initialize values.
+    Update values.
+
+3. Repeat until slope = 0
+
+A derivative is a term that comes from calculus and is calculated as the slope of the graph at a particular point. The slope is described by drawing a tangent line to the graph at the point. So, if we are able to compute this tangent line, we might be able to compute the desired direction to reach the minima.
+
+Learning rate must be chosen wisely as:
+1. if it is too small, then the model will take some time to learn.
+2. if it is too large, model will converge as our pointer will shoot and we’ll not be able to get to minima.
 
 
 ### Bibliography
 
-A playlist [by Machine Lernia](https://www.youtube.com/watch?v=EUD07IiviJg&list=PLO_fdPEVlfKqUF5BPKjGSh7aV9aBshrpY) initiating to machine learning (in French).
-
-![formulas](varia/img/mlearnia_formulas.png)
+I started my learning process from a playlist [by Machine Lernia](https://www.youtube.com/watch?v=EUD07IiviJg&list=PLO_fdPEVlfKqUF5BPKjGSh7aV9aBshrpY) initiating to machine learning (in French).
 
 The foundations of my work are inspired by Sindhu Seelam's article ["Linear Regression From Scratch in Python WITHOUT Scikit-learn"](https://medium.com/geekculture/linear-regression-from-scratch-in-python-without-scikit-learn-a06efe5dedb6) published on Medium.
 
-Daksh Trehan's articles ["Linear Regression Explained"](https://pub.towardsai.net/linear-regression-explained-f5cc85ae2c5c) and ["Gradient Descent Explained"](https://towardsdatascience.com/gradient-descent-explained-9b953fc0d2c)
-Robert Kwiatkowski's article ["Gradient Descent Algorithm — a deep dive"](https://medium.com/towards-data-science/gradient-descent-algorithm-a-deep-dive-cf04e8115f21)
-Jatin Mehra's article [Understanding Gradient Descent: A Beginner’s Guide](https://medium.com/@jatinmehra119/understanding-gradient-descent-a-beginners-guide-ad1f948b4b0a)
+Other articles I used for the explanations and the present redaction of the README file are:
+- Daksh Trehan's articles ["Linear Regression Explained"](https://pub.towardsai.net/linear-regression-explained-f5cc85ae2c5c) and ["Gradient Descent Explained"](https://towardsdatascience.com/gradient-descent-explained-9b953fc0d2c);
+- Robert Kwiatkowski's article ["Gradient Descent Algorithm — a deep dive"](https://medium.com/towards-data-science/gradient-descent-algorithm-a-deep-dive-cf04e8115f21);
+- Jatin Mehra's article [Understanding Gradient Descent: A Beginner’s Guide](https://medium.com/@jatinmehra119/understanding-gradient-descent-a-beginners-guide-ad1f948b4b0a).
 
 I used [Desmos Graphing Calculator](https://www.desmos.com/calculator) to graphically display the functions for my examples.
 
@@ -74,6 +113,10 @@ To normalize the values of my arrays of mileage and prices I followed the tip of
 
 [Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
 [Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse)
+
+### Appendix A
+
+#### A. Fuchs' Notes
 
 En fait le but du jeu c’est de trouver les paramètres a et b d’une fonction linéaire f(x) = ax + b.
 Pour ça tu considères une fonction T(a, b) dont la valeur représente une sorte d’erreur moyenne entre la valeur d’estimation de f(x) et les valeurs réelles (plutôt une variance en fait), et tu cherches à minimiser cette erreur.
