@@ -78,7 +78,7 @@ def main():
     # using the formula to calculate θ0 and θ1
     θ0 = θ1 = 1
     learningRate = 0.01
-    iterations = 100
+    iterations = 1000
 
     i = 1
     # normalizing my arrays
