@@ -98,6 +98,61 @@ This process ensures that the model parameters are adjusted in the direction tha
 
 ![Machine learning formulas I used](varia/img/mlearnia_formulas.png)
 
+### R-squared value:
+
+To measure the goodness of our regression line, we will use __R-squared value__, or __coefficient of determination__.
+
+> R-squared value is a statistical measure of how close the data are to the fitted regression line.
+
+To calculate __R-squared value__ we will use the following formula:
+
+![R-squared value calculation](varia/img/r-squared_value.png)
+
+Where _y_ is the actual value, _yₚᵣₑ𝒹_ is the predicted _y_ value and _y̅_ is the mean.
+
+Basically, we calculate the difference between the predicted value and the mean, then divide it by the difference between the actual value and the mean.
+
+The higher the __R-squared value__ the better our model performance will be. So as the __R-squared value__ gradually increases, the distance of actual points from the __regression line__ decreases, and the performance of the model increases.
+
+### Conclusions
+
+To conclude, the goal is to find the parameters _a_ and _b_ of a linear function _f(x)=ax+b_. To achieve this, you consider a function _T(a,b)_ which represents a type of average error between the estimated value f(x) and the real values, more specifically a variance. You aims at minimizing this error.
+
+The method used to find the minimum of _T(a,b)_ is called the gradient descent algorithm. If you delve into the details and calculate the gradient of _T(a,b)_, you will derive the formulas provided in the project subject: if you take _T(a,b)=(1/N)∑(pi−a⋅ki+b)^2_ where _N_ is the number of price/kilometer pairs _(pi,ki)_ obtained from a .csv file, and _a_ and _b_ are the parameters of T.
+
+Conceptually, _T_ is just a surface function, and you seek the coordinates of the point where the surface's altitude is the lowest. You start with an initial point (in the subject, it's _(a0=0, b0=0)_), calculate the gradient at this point, and then follow the direction opposite to the gradient (to minimize the function).
+
+From there, you have an initial point _(a0,b0)_ and a direction (−x0,−y0). You move from the starting point in the opposite direction of the gradient to find a new point: _(a0,b0)+coef⋅(−x0,−y0)=(a1,b1)_.
+
+This completes the first iteration of the algorithm. The point _(a1,b1)_ provides a lower altitude than _(a0,b0)_, meaning _T(a1,b1)<T(a0,b0)_. You then repeat the same process, replacing _(a0,b0)_ with _(a1,b1)_, and continue until the difference between _T(an,bn)_ and _T(an+1,bn+1)_ is sufficiently small.
+
+The coefficient in the formula is the __convergence coefficient__ (__learning rate__). There is an optimal way to find this value, but that is a different topic. With a sufficiently small value, the algorithm will work, although it may not be the fastest.
+
+The _learning rate_, denoted as _coef_, helps guide the updates to _a_ and _b_ to minimize the error. Specifically, in each iteration, you compute temporary values _atemp_​ and _btemp_​, then update _a_ and _b_ as follows:
+
+_a1=learning_rate⋅atemp+a0_
+_b1=learning_rate⋅btemp+b0_
+
+You repeat this process until the algorithm converges to the minimum error.
+
+The function _T(a,b)_ compares the estimated price for a given mileage with the actual price. It is defined as:
+_f(x)=a⋅x+b_
+This is the function you aim to find through the algorithm. To compare, you calculate:
+_actual_price−f(actual_mileage)_
+
+Since you have multiple data points, you take the average of the differences:
+_1/Number_of_data∑(actual_price−f(actual_mileage))_
+
+To avoid negative values in this measure, you square each term, resulting in:
+_1/Number_of_data∑(actual_price−f(actual_mileage))^2_
+
+Expanding _f_ in this formula gives:
+_1/Number_of_data∑(actual_price−(a⋅actual_mileage+b))^2_
+
+This final formula is _T(a,b)_, representing the average error between the function _a⋅x+b_ and the real data. Minimizing _T(a,b)_ helps find _a_ and _b_ such that the line _a⋅x+b_ best fits the data points.
+
+The gradient descent algorithm is a mathematical technique to find a local minimum of a function, ensuring the function meets certain properties.
+
 ### Bibliography
 
 I approached machine learning from a [YouTube video playlist](https://www.youtube.com/watch?v=EUD07IiviJg&list=PLO_fdPEVlfKqUF5BPKjGSh7aV9aBshrpY) by Machine Lernia (in French).
@@ -115,46 +170,3 @@ To normalize the values of my arrays of mileage and prices I followed the tip of
 
 To add argument flags to the program, I used the [argparse](https://docs.python.org/3/library/argparse.html) library, and in particular I followed [Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
 [Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse)
-
-### Appendix A:
-#### A.F.'s Notes
-
-En fait le but du jeu c’est de trouver les paramètres a et b d’une fonction linéaire f(x) = ax + b.
-Pour ça tu considères une fonction T(a, b) dont la valeur représente une sorte d’erreur moyenne entre la valeur d’estimation de f(x) et les valeurs réelles (plutôt une variance en fait), et tu cherches à minimiser cette erreur.
-Le procédé utilisé pour trouver le minimum de T(a, b) s’appelle l’algorithme de descente du gradient. Si tu veux entrer dans les détails et que tu calcules le gradient de T(a, b) tu vas tomber pile sur les formules données dans le sujet: si tu prends T(a, b) = (1 / N) * Somme( ( p_i - a * k_i + b ) ^ 2) où N est le nombre de couple prix / kilomètre (p_i, k_i) que tu récupères dans le fichier .csv et a et b sont les paramètres de T.
-Dans l’idée, de façon plus abstraite, T est juste une fonction surface, et tu cherches les coordonnées du point où l’altitude de la surface est la plus basse.
-Tu choisis donc un point de départ (dans le sujet c’est a_0 = 0, b_0 = 0), et tu calcules le gradient en ce point, et de mémoire c’est ce que représentent les deux formules du sujet si tu ne prends pas en compte le coefficient de convergence.
-Le gradient est donc un vecteur, une direction de plus forte pente, c'est-à-dire que, sur le plan, c’est la direction où la croissance de la fonction est la plus forte. Mais nous, ce qu’on veut, c’est minimiser, donc on prend l’opposé du gradient pour obtenir une descente (au lieu d’une montée). Donc si ton gradient c’est (x_0, y_0) la direction à prendre c’est (-x_0, -y_0).
-A partir de là, tu as un point de départ (a_0, b_0) et une direction (-x_0, -y_0) et ben ! il suffit de partir du point de départ dans le sens opposé du gradient et tu vas trouver un nouveau point: (a_0, b_0) + coef * (-x_0, -y_0) = (a_1, b_1).
-A partir de là, tu as complété une première itération de l’algorithme. Le point (a_1, b_1) donne une altitude plus basse que (a_0, b_0) c'est-à-dire que T(a_1, b_1) < T(a_0, b_0).
-Et pour continuer tu répètes la même chose en remplaçant (a_0, b_0) par (a_1, b_1), et tu continues jusqu’à ce que la différence entre T(a_n, b_n) et T(a_(n+1), b_(n+1)) est assez petite “à ton goût”.
-
-Le coefficient dont je parle dans la dernière formule, c’est le coefficient de convergence. Il y a une manière de trouver le plus optimisé mais c’est un tout autre sujet, que je pourrais t’expliquer mais ce serait mieux avec un tableau en présentiel.
-Normalement avec une valeur suffisamment petite l’algo fonctionnera mais il ne sera pas le plus rapide possible.
-
-Coef c’est bien le learning rate, tandis que T(a, b) dans mon explication c’est la mesure de l’erreur entre la fonction coût et les données réelles.
-Et quand tu calcules le gradient de cette fonction T(a, b) tu obtiens les formules données dans le sujet.
-Concrètement, dans la première itération tu calcules les deux formules avec a = 0 et b = 0 et tu obtiens a_temp et b_temp.
-Tu fais ensuite a1 = learning_rate * a_temp + a0 et b1 = learning_rate * b_temp + b0.
-Et tu recommences, tu calcules les deux formules avec cette fois ci a = a1 et b = b1 et tu obtiens de nouveau a_temp et b_temp, puis a2 = learning_rate * a_temp + a1 et b2 = learning_rate * b_temp + b1. Et ainsi de suite.
-Après il te faut une condition d’arrêt, parce que l’algorithme va converger vers la solution du minimum, donc soit il l’atteint et ça va tourner en boucle sur la même valeur, soit il ne l’atteint jamais mais s’en approchera infiniment, et donc ça tournera aussi en boucle infinie.
-
-Concernant T(a, b), ce que fait cette fonction c’est comparer le prix pour un kilométrage avec la fonction coût:
-f(x) = a * x + b
-c’est la fonction que tu veux trouver à l’issue de l'entraînement de l’algorithme. Donc f(kilometre_réel) = prix_estimé.
-Et pour comparer tu fais:
-prix_réel - f(kilomètre_réel)
-
-Comme on a plusieurs données, on fait alors la moyenne des différences, c’est à dire:
-(1 / Nombre_de_data) * Somme(prix_réel - f(kilomètre_réel))
-
-Et comme on ne veut pas de valeures négatives dans cette mesure, on met aussi au carré chaque membre de la somme et ça donne finalement:
-(1 / Nombre_de_data) * Somme( (prix_réel - f(kilomètre_réel))^2 )
-
-Si tu développes f dans cette formule tu obtiens:
-(1 / Nombre_de_data) * Somme( (prix_réel - (a * kilomètre_réel + b))^2 )
-
-Et cette dernière formule c’est T(a, b). Elle te donne en fait l’erreur moyenne entre la fonction a*x + b et les données réelles.
-Trouver le minimum de T(a, b) permet donc de trouver a et b tels que la droite a*x + b passe au plus près de tous les points des données réelles.
-
-Le reste, en particulier l’algorithme de descente du gradient, c’est juste une technique mathématique pour trouver un minimum local sur une fonction “quelconque” (elle doit vérifier quand même quelques propriétés mais ce n'est pas le sujet).
