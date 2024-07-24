@@ -100,9 +100,9 @@ This process ensures that the model parameters are adjusted in the direction tha
 
 ### R-squared value:
 
-To measure the goodness of our regression line, we will use __R-squared value__, or __coefficient of determination__.
+To measure the goodness of our regression line, we will use the __R-squared value__, or __coefficient of determination__.
 
-> R-squared value is a statistical measure of how close the data are to the fitted regression line.
+> _R-squared value_ is a statistical measure of how close the data are to the fitted _regression line_.
 
 To calculate __R-squared value__ we will use the following formula:
 
@@ -141,14 +141,19 @@ This is the function you aim to find through the algorithm. To compare, you calc
 _actual_price−f(actual_mileage)_
 
 Since you have multiple data points, you take the average of the differences:
-_1/Number_of_data∑(actual_price−f(actual_mileage))_
+$$
+\frac{1}{numberOfData}\sum_{i=1}^m (actualPrice − f(actualMileage))
+$$
 
 To avoid negative values in this measure, you square each term, resulting in:
-_1/Number_of_data∑(actual_price−f(actual_mileage))^2_
+$$
+\frac{1}{numberOfData}\sum_{i=1}^m (actualPrice − f(actualMileage))^2
+$$
 
 Expanding _f_ in this formula gives:
-_1/Number_of_data∑(actual_price−(a⋅actual_mileage+b))^2_
-
+$$
+\frac{1}{numberOfData}\sum_{i=1}^m (actualPrice − (a⋅actualMileage+b))^2
+$$
 This final formula is _T(a,b)_, representing the average error between the function _a⋅x+b_ and the real data. Minimizing _T(a,b)_ helps find _a_ and _b_ such that the line _a⋅x+b_ best fits the data points.
 
 The gradient descent algorithm is a mathematical technique to find a local minimum of a function, ensuring the function meets certain properties.
@@ -169,4 +174,6 @@ I used [Desmos Graphing Calculator](https://www.desmos.com/calculator) to graphi
 To normalize the values of my arrays of mileage and prices I followed the tip of Cina on [StackOverflow](https://stackoverflow.com/a/41532180).
 
 To add argument flags to the program, I used the [argparse](https://docs.python.org/3/library/argparse.html) library, and in particular I followed [Managing arguments in Python with argparse](https://stackoverflow.com/a/11618620)
-[Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse)
+[Managing boolean arguments](https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse).
+
+To add mathematical notation to the present README file, I followed the leads of [Cheat Sheet: Adding Math Notation to Markdown](https://www.upyesp.org/posts/makrdown-vscode-math-notation).
