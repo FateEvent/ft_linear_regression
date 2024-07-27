@@ -12,8 +12,8 @@ def main():
         print('The database could not be retrieved.')
         return 1
 
-    X = df['km']
-    Y = df['price']
+    X = df[df.columns[0]]
+    Y = df[df.columns[1]]
 
     # calculate mean of Y
     mean_y = np.mean(Y)

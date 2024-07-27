@@ -73,8 +73,8 @@ def main():
         print('The database could not be retrieved.')
         return 1
 
-    X = df['km']
-    Y = df['price']
+    X = df[df.columns[0]]
+    Y = df[df.columns[1]]
 
     # using the formula to calculate θ0 and θ1
     θ0 = θ1 = 0
@@ -96,8 +96,9 @@ def main():
         linePlotter(X, Y, θ0_norm, θ1_norm)
         plt.scatter(X, Y, c='#ef5423', label='Data Points')
 
-        plt.xlabel('Mileage')
-        plt.ylabel('Price')
+        plt.xlabel('Mileage' if df.columns[0] == 'km'
+                   else df.columns[0].capitalize())
+        plt.ylabel(df.columns[1].capitalize())
         plt.legend()
         plt.show()
 
